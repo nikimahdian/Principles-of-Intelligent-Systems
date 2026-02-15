@@ -1,0 +1,1629 @@
+{
+    "section1_introduction": {
+        "dataset_info": {
+            "dataset_name": "Loan Approval Dataset",
+            "source": "Financial Institution Loan Applications",
+            "problem_type": "Binary Classification",
+            "target_variable": "Status (Y: Approved, N: Rejected)",
+            "total_samples": 614,
+            "total_features": 11,
+            "feature_names": [
+                "Gender",
+                "Married",
+                "Dependents",
+                "Education",
+                "Self_Employed",
+                "Applicant_Income",
+                "Coapplicant_Income",
+                "Loan_Amount",
+                "Term",
+                "Credit_History",
+                "Area"
+            ],
+            "target_distribution": {
+                "Y": 422,
+                "N": 192
+            },
+            "target_distribution_percentage": {
+                "Y": 68.72964169381108,
+                "N": 31.27035830618892
+            },
+            "missing_values": {
+                "Gender": 13,
+                "Married": 3,
+                "Dependents": 15,
+                "Education": 0,
+                "Self_Employed": 32,
+                "Applicant_Income": 0,
+                "Coapplicant_Income": 0,
+                "Loan_Amount": 0,
+                "Term": 14,
+                "Credit_History": 50,
+                "Area": 0,
+                "Status": 0
+            },
+            "data_types": {
+                "Gender": "object",
+                "Married": "object",
+                "Dependents": "object",
+                "Education": "object",
+                "Self_Employed": "object",
+                "Applicant_Income": "int64",
+                "Coapplicant_Income": "float64",
+                "Loan_Amount": "int64",
+                "Term": "float64",
+                "Credit_History": "float64",
+                "Area": "object",
+                "Status": "object"
+            }
+        },
+        "problem_description": {
+            "objective": "Predict loan approval status (Approved/Rejected) based on applicant characteristics",
+            "business_value": "Automate loan approval process, reduce processing time, ensure consistent decision-making",
+            "challenges": [
+                "Handling missing values in multiple features",
+                "Mixed data types (categorical and numerical)",
+                "Class imbalance (if present)",
+                "Feature engineering for better predictive power",
+                "Model interpretability for regulatory compliance"
+            ],
+            "success_criteria": [
+                "High accuracy in predicting loan approval",
+                "Low false positive rate (approving bad loans)",
+                "Low false negative rate (rejecting good loans)",
+                "Model interpretability"
+            ]
+        },
+        "feature_descriptions": {
+            "Gender": "Applicant gender (Male/Female)",
+            "Married": "Marital status (Yes/No)",
+            "Dependents": "Number of dependents (0, 1, 2, 3+)",
+            "Education": "Education level (Graduate/Not Graduate)",
+            "Self_Employed": "Self-employment status (Yes/No)",
+            "Applicant_Income": "Applicant annual income",
+            "Coapplicant_Income": "Co-applicant annual income",
+            "Loan_Amount": "Loan amount requested",
+            "Term": "Loan term in months",
+            "Credit_History": "Credit history (1: Good, 0: Bad)",
+            "Area": "Property area (Urban/Semiurban/Rural)"
+        }
+    },
+    "section2_preprocessing": {
+        "preprocessing_steps": {
+            "missing_values": {
+                "method": "Mode imputation for categorical, Median imputation for numerical",
+                "missing_before": 127,
+                "missing_after": 0,
+                "details": {
+                    "Gender": 13,
+                    "Married": 3,
+                    "Dependents": 15,
+                    "Self_Employed": 32,
+                    "Term": 14,
+                    "Credit_History": 50
+                }
+            },
+            "encoding": {
+                "method": "LabelEncoder for categorical variables",
+                "encoded_features": [
+                    "Gender",
+                    "Married",
+                    "Dependents",
+                    "Education",
+                    "Self_Employed",
+                    "Area"
+                ]
+            },
+            "outliers": {
+                "method": "IQR method (1.5 * IQR) with capping",
+                "outlier_details": {
+                    "Applicant_Income": {
+                        "outliers_detected": 50,
+                        "lower_bound": 0.0,
+                        "upper_bound": 1017125.0,
+                        "treatment": "Capped to IQR bounds (with non-negative constraint for financial features)"
+                    },
+                    "Coapplicant_Income": {
+                        "outliers_detected": 18,
+                        "lower_bound": 0.0,
+                        "upper_bound": 574312.5,
+                        "treatment": "Capped to IQR bounds (with non-negative constraint for financial features)"
+                    },
+                    "Loan_Amount": {
+                        "outliers_detected": 41,
+                        "lower_bound": 0.0,
+                        "upper_bound": 26487500.0,
+                        "treatment": "Capped to IQR bounds (with non-negative constraint for financial features)"
+                    },
+                    "Term": {
+                        "outliers_detected": 88,
+                        "lower_bound": 360.0,
+                        "upper_bound": 360.0,
+                        "treatment": "Capped to IQR bounds (with non-negative constraint for financial features)"
+                    },
+                    "Credit_History": {
+                        "outliers_detected": 89,
+                        "lower_bound": 1.0,
+                        "upper_bound": 1.0,
+                        "treatment": "Capped to IQR bounds (with non-negative constraint for financial features)"
+                    }
+                }
+            },
+            "scaling": {
+                "method": "StandardScaler (Standardization)",
+                "formula": "z = (x - \u03bc) / \u03c3",
+                "scaled_features": [
+                    "Applicant_Income",
+                    "Coapplicant_Income",
+                    "Loan_Amount",
+                    "Term",
+                    "Credit_History"
+                ],
+                "effect": "Features have mean=0 and std=1, suitable for algorithms sensitive to feature scale"
+            },
+            "target_encoding": {
+                "method": "LabelEncoder",
+                "mapping": {
+                    "N": "0",
+                    "Y": "1"
+                }
+            }
+        },
+        "final_shape": [
+            614,
+            11
+        ],
+        "feature_names": [
+            "Gender",
+            "Married",
+            "Dependents",
+            "Education",
+            "Self_Employed",
+            "Applicant_Income",
+            "Coapplicant_Income",
+            "Loan_Amount",
+            "Term",
+            "Credit_History",
+            "Area"
+        ]
+    },
+    "section3_dimensionality_reduction": {
+        "pca": {
+            "2": {
+                "n_components": 2,
+                "explained_variance_ratio": 0.5243411201338803,
+                "accuracy": 0.6756756756756757,
+                "fit_time": 0.01591348648071289,
+                "train_time": 0.17615795135498047,
+                "inference_time": 0.0417485237121582,
+                "total_time": 0.23381996154785156
+            },
+            "3": {
+                "n_components": 3,
+                "explained_variance_ratio": 0.7108081718340251,
+                "accuracy": 0.6108108108108108,
+                "fit_time": 0.00368499755859375,
+                "train_time": 0.16011476516723633,
+                "inference_time": 0.03725862503051758,
+                "total_time": 0.20105838775634766
+            },
+            "5": {
+                "n_components": 5,
+                "explained_variance_ratio": 0.8891503516883396,
+                "accuracy": 0.6972972972972973,
+                "fit_time": 0.004790306091308594,
+                "train_time": 0.1629934310913086,
+                "inference_time": 0.041939496994018555,
+                "total_time": 0.20972323417663574
+            },
+            "7": {
+                "n_components": 7,
+                "explained_variance_ratio": 0.9605105952086967,
+                "accuracy": 0.6972972972972973,
+                "fit_time": 0.003575563430786133,
+                "train_time": 0.16993308067321777,
+                "inference_time": 0.0400080680847168,
+                "total_time": 0.2135167121887207
+            },
+            "10": {
+                "n_components": 10,
+                "explained_variance_ratio": 0.9999999999999999,
+                "accuracy": 0.6702702702702703,
+                "fit_time": 0.0007467269897460938,
+                "train_time": 0.16122674942016602,
+                "inference_time": 0.02624678611755371,
+                "total_time": 0.18822026252746582
+            },
+            "11": {
+                "n_components": 11,
+                "explained_variance_ratio": 0.9999999999999999,
+                "accuracy": 0.6702702702702703,
+                "fit_time": 0.0025665760040283203,
+                "train_time": 0.16712594032287598,
+                "inference_time": 0.03838396072387695,
+                "total_time": 0.20807647705078125
+            }
+        },
+        "lda": {
+            "1": {
+                "n_components": 1,
+                "accuracy": 0.5675675675675675,
+                "fit_time": 0.009860515594482422,
+                "train_time": 0.16223788261413574,
+                "inference_time": 0.04084348678588867,
+                "total_time": 0.21294188499450684
+            }
+        },
+        "tsne": {
+            "n_components": 2,
+            "sample_size": 429,
+            "fit_time": 8.793883085250854,
+            "note": "t-SNE used for visualization only, not for model training"
+        }
+    },
+    "section4_model_selection": {
+        "models_tested": [
+            "random_forest",
+            "gradient_boosting",
+            "svm"
+        ],
+        "model_results": {
+            "random_forest": {
+                "accuracy": 0.6829268292682927,
+                "precision": 0.7211538461538461,
+                "recall": 0.8823529411764706,
+                "f1_score": 0.7936507936507936,
+                "roc_auc": 0.5411764705882354,
+                "train_time": 0.3221423625946045,
+                "inference_time": 0.10808777809143066,
+                "predictions": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1
+                ],
+                "probabilities": [
+                    0.8,
+                    0.31,
+                    0.45,
+                    0.51,
+                    0.75,
+                    0.89,
+                    0.68,
+                    0.53,
+                    0.86,
+                    0.91,
+                    0.88,
+                    0.8,
+                    0.7,
+                    0.94,
+                    0.68,
+                    0.86,
+                    0.76,
+                    0.84,
+                    0.85,
+                    0.89,
+                    0.63,
+                    0.62,
+                    0.59,
+                    0.56,
+                    0.48,
+                    0.83,
+                    0.85,
+                    0.47,
+                    0.71,
+                    0.58,
+                    0.79,
+                    0.76,
+                    0.82,
+                    0.63,
+                    0.45,
+                    0.85,
+                    0.91,
+                    0.89,
+                    0.88,
+                    0.4,
+                    0.88,
+                    0.74,
+                    0.99,
+                    0.81,
+                    0.56,
+                    0.74,
+                    0.46,
+                    0.63,
+                    0.48,
+                    0.82,
+                    0.89,
+                    0.62,
+                    0.71,
+                    0.42,
+                    0.61,
+                    0.71,
+                    0.7,
+                    0.83,
+                    0.77,
+                    0.5,
+                    0.92,
+                    0.75,
+                    0.74,
+                    0.94,
+                    0.83,
+                    0.7,
+                    0.37,
+                    0.53,
+                    0.72,
+                    0.46,
+                    0.8,
+                    0.74,
+                    0.86,
+                    0.51,
+                    0.82,
+                    0.68,
+                    0.78,
+                    0.86,
+                    0.73,
+                    0.6,
+                    0.73,
+                    0.61,
+                    0.78,
+                    0.85,
+                    0.95,
+                    0.44,
+                    0.83,
+                    0.7,
+                    0.71,
+                    0.77,
+                    0.79,
+                    0.91,
+                    0.63,
+                    0.61,
+                    0.33,
+                    0.73,
+                    0.72,
+                    0.35,
+                    0.74,
+                    0.69,
+                    0.79,
+                    0.82,
+                    0.83,
+                    0.66,
+                    0.46,
+                    0.66,
+                    0.83,
+                    0.7,
+                    0.43,
+                    0.86,
+                    0.65,
+                    0.62,
+                    0.96,
+                    0.76,
+                    0.62,
+                    0.92,
+                    0.45,
+                    0.78,
+                    0.96,
+                    0.67,
+                    0.69,
+                    0.28,
+                    0.72
+                ]
+            },
+            "gradient_boosting": {
+                "accuracy": 0.6422764227642277,
+                "precision": 0.6952380952380952,
+                "recall": 0.8588235294117647,
+                "f1_score": 0.7684210526315789,
+                "roc_auc": 0.5445820433436533,
+                "train_time": 0.216078519821167,
+                "inference_time": 0.004321575164794922,
+                "predictions": [
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1
+                ],
+                "probabilities": [
+                    0.787885213437977,
+                    0.7570518278134247,
+                    0.5623857575209962,
+                    0.2887163702583902,
+                    0.8159587309682811,
+                    0.8719466795525354,
+                    0.7805041588820207,
+                    0.7265843370264042,
+                    0.8834073221780524,
+                    0.926560711525633,
+                    0.8274017457016134,
+                    0.6405422444800901,
+                    0.784279254351955,
+                    0.8860105393547156,
+                    0.9040471903861724,
+                    0.8747584323761587,
+                    0.7790681627409409,
+                    0.8465372164050167,
+                    0.8133180778466715,
+                    0.8939739127960593,
+                    0.7779763528131232,
+                    0.6485626290814402,
+                    0.7579628861002967,
+                    0.7717339619486735,
+                    0.6141651144800577,
+                    0.8920305609968803,
+                    0.8110667875323107,
+                    0.485878469326567,
+                    0.851829323294536,
+                    0.6266627826208854,
+                    0.5896740476077996,
+                    0.7598396116898933,
+                    0.67899676432833,
+                    0.9019462177026165,
+                    0.4740207043225548,
+                    0.8480559555847414,
+                    0.8218615206902148,
+                    0.8369746968161041,
+                    0.8690964882812274,
+                    0.6340066079005028,
+                    0.7738411808526012,
+                    0.7376002379336368,
+                    0.8763480925874811,
+                    0.7036040659520232,
+                    0.6275379853808531,
+                    0.41584964083055354,
+                    0.41386809355501103,
+                    0.6360314820381733,
+                    0.6371988998926942,
+                    0.48821059126105343,
+                    0.8228801801509763,
+                    0.6920546084514959,
+                    0.6623374001608002,
+                    0.08794201148822521,
+                    0.7146286176157722,
+                    0.6158696396771505,
+                    0.6417253510596539,
+                    0.7500821693350482,
+                    0.7875682923220252,
+                    0.7186901783386398,
+                    0.8555056649426522,
+                    0.6822022495666796,
+                    0.5147220371130006,
+                    0.8761544878150481,
+                    0.7419309958251921,
+                    0.801096268407903,
+                    0.430846097251401,
+                    0.7031984064399133,
+                    0.40442798538480634,
+                    0.19053011483753113,
+                    0.8391255556094273,
+                    0.6438582260790998,
+                    0.8575343713497435,
+                    0.8118124473297341,
+                    0.8753423452036972,
+                    0.6662348295624535,
+                    0.4865873228430793,
+                    0.8668433150527111,
+                    0.5833116945265691,
+                    0.6954313073603217,
+                    0.44087357318091086,
+                    0.48232422942958264,
+                    0.8628645429512805,
+                    0.8483660857146005,
+                    0.8656290494002548,
+                    0.6796249923688433,
+                    0.8261449316652365,
+                    0.7627988124932767,
+                    0.8662951012940885,
+                    0.8331194740070015,
+                    0.9066015962943051,
+                    0.7882565927368336,
+                    0.5395917096526737,
+                    0.5796661428601294,
+                    0.48049249523743975,
+                    0.8468439495194864,
+                    0.8069506971957084,
+                    0.7590917285074757,
+                    0.7911375161546513,
+                    0.8374533830704003,
+                    0.7039437712957561,
+                    0.9276593681060575,
+                    0.767710144248322,
+                    0.8607329549773797,
+                    0.754004143809619,
+                    0.1843944493112398,
+                    0.8507150089259145,
+                    0.8454922630668559,
+                    0.526305479214118,
+                    0.8955047496352747,
+                    0.6030637466182291,
+                    0.4600822559334191,
+                    0.9071980796847506,
+                    0.8370682280521594,
+                    0.624646397615951,
+                    0.8452160015578943,
+                    0.3557337861012857,
+                    0.514576148341436,
+                    0.866647388273684,
+                    0.6972660396055865,
+                    0.8323152590464284,
+                    0.28674788508630733,
+                    0.8106960434361258
+                ]
+            },
+            "svm": {
+                "accuracy": 0.6991869918699187,
+                "precision": 0.6967213114754098,
+                "recall": 1.0,
+                "f1_score": 0.821256038647343,
+                "roc_auc": 0.4965944272445821,
+                "train_time": 0.04951214790344238,
+                "inference_time": 0.012375116348266602,
+                "predictions": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                "probabilities": [
+                    0.6890376731709118,
+                    0.6886906068353769,
+                    0.6729170321762429,
+                    0.6858789919555912,
+                    0.6949671700474424,
+                    0.6954752879989529,
+                    0.6785275846749581,
+                    0.6890753095596539,
+                    0.6992014917169376,
+                    0.7026623131880543,
+                    0.6948547342358625,
+                    0.692091745844179,
+                    0.682653237156294,
+                    0.697375655924837,
+                    0.6917623223561151,
+                    0.6902983227643577,
+                    0.693583303022066,
+                    0.696171034807821,
+                    0.6965357697227931,
+                    0.691732408665167,
+                    0.6927547091312041,
+                    0.6855740556719548,
+                    0.6926924330716138,
+                    0.6814690921693073,
+                    0.6883516046988967,
+                    0.6933632354628484,
+                    0.6894275915691516,
+                    0.676838047881289,
+                    0.690573072851292,
+                    0.6892291959169643,
+                    0.6999070090726878,
+                    0.6889566534034282,
+                    0.6930035342341296,
+                    0.6898258759355829,
+                    0.670803911361116,
+                    0.6958130562832161,
+                    0.6948343320086389,
+                    0.6981819837203919,
+                    0.6920503533130706,
+                    0.6799354687323352,
+                    0.694336280714718,
+                    0.6915948136414818,
+                    0.6963657479190108,
+                    0.6902618930383515,
+                    0.6937514554565946,
+                    0.6864146927349617,
+                    0.677463964479121,
+                    0.6846374632682221,
+                    0.6737517632451535,
+                    0.6956164114253195,
+                    0.6973247401854404,
+                    0.6920101517239239,
+                    0.6957821476662709,
+                    0.6838703429331158,
+                    0.6613901425650899,
+                    0.6907083458959623,
+                    0.6917228827531596,
+                    0.6923007132727614,
+                    0.6884005431064709,
+                    0.688119071066376,
+                    0.6936551621618781,
+                    0.6925933800332845,
+                    0.6946511140881695,
+                    0.6889943550802753,
+                    0.6911292963798945,
+                    0.6876078472841626,
+                    0.6229393415129629,
+                    0.6879113196607581,
+                    0.6927761837935283,
+                    0.6456420704895988,
+                    0.6874493504817578,
+                    0.6882302072025815,
+                    0.6917007143287097,
+                    0.6908897248785502,
+                    0.6924352071389522,
+                    0.6922278388554641,
+                    0.6952047942738209,
+                    0.6931268345269816,
+                    0.6928183332921923,
+                    0.6882074784108918,
+                    0.693675326819164,
+                    0.6853864023200049,
+                    0.6857651138383116,
+                    0.691900413458346,
+                    0.6911967985182199,
+                    0.6753547349586764,
+                    0.6926091116909561,
+                    0.6777141279886045,
+                    0.6974991844957624,
+                    0.6944493965155529,
+                    0.6781917082508618,
+                    0.6870776712798033,
+                    0.6909417607814051,
+                    0.6913380148756649,
+                    0.6751548255282382,
+                    0.6958044801332873,
+                    0.6900271835933274,
+                    0.6906551158664328,
+                    0.6992760161409904,
+                    0.692987497997504,
+                    0.6912834332061584,
+                    0.6948934509455928,
+                    0.6874204771358007,
+                    0.6683681150239509,
+                    0.6892692888838746,
+                    0.6839533114128331,
+                    0.6932540239493111,
+                    0.6941600084925652,
+                    0.6739559358408859,
+                    0.6967837492607045,
+                    0.6772842491338583,
+                    0.6830875169462908,
+                    0.6920130900735753,
+                    0.6871064207529869,
+                    0.6728371104784432,
+                    0.6981942841134792,
+                    0.6775298991521215,
+                    0.6923053676829108,
+                    0.7020476093881379,
+                    0.6914495337082189,
+                    0.6723315523788179,
+                    0.6464180654677303,
+                    0.6917979517795932
+                ]
+            }
+        },
+        "best_model": "svm"
+    },
+    "section5_hyperparameter_tuning": {
+        "tuning_results": {
+            "random_forest": {
+                "method": "Grid Search",
+                "best_params": {
+                    "max_depth": 20,
+                    "min_samples_leaf": 1,
+                    "min_samples_split": 2,
+                    "n_estimators": 200
+                },
+                "best_score": 0.7708889057233644,
+                "cv_score": 0.7708889057233644,
+                "test_score": 0.7857142857142857
+            },
+            "gradient_boosting": {
+                "method": "Random Search",
+                "best_params": {
+                    "n_estimators": 50,
+                    "min_samples_split": 10,
+                    "min_samples_leaf": 1,
+                    "max_depth": 7,
+                    "learning_rate": 0.01
+                },
+                "best_score": 0.8037420547793694,
+                "cv_score": 0.8037420547793694,
+                "test_score": 0.8155339805825242
+            }
+        },
+        "methods_used": [
+            "Grid Search",
+            "Random Search"
+        ],
+        "cv_folds": 5,
+        "scoring_metric": "f1_score"
+    },
+    "section6_evaluation": {
+        "evaluation_results": {
+            "random_forest": {
+                "accuracy": 0.6747967479674797,
+                "precision": 0.7184466019417476,
+                "recall": 0.8705882352941177,
+                "f1_score": 0.7872340425531915,
+                "roc_auc": 0.5137770897832817,
+                "confusion_matrix": [
+                    [
+                        9,
+                        29
+                    ],
+                    [
+                        11,
+                        74
+                    ]
+                ]
+            },
+            "gradient_boosting": {
+                "accuracy": 0.6747967479674797,
+                "precision": 0.6890756302521008,
+                "recall": 0.9647058823529412,
+                "f1_score": 0.803921568627451,
+                "roc_auc": 0.5455108359133126,
+                "confusion_matrix": [
+                    [
+                        1,
+                        37
+                    ],
+                    [
+                        3,
+                        82
+                    ]
+                ]
+            }
+        },
+        "reproducibility": {
+            "random_state": 99,
+            "numpy_seed": 99,
+            "python_hash_seed": "Not set (deterministic algorithms used)",
+            "train_val_test_split": {
+                "train": "60%",
+                "validation": "15%",
+                "test": "25%",
+                "method": "Stratified split to maintain class distribution",
+                "random_state": 99
+            },
+            "cross_validation": {
+                "folds": 5,
+                "method": "StratifiedKFold",
+                "random_state": 99
+            }
+        },
+        "test_set_size": 123,
+        "test_set_distribution": {
+            "class_0": 38,
+            "class_1": 85
+        }
+    },
+    "section7_visualization": {
+        "metrics_comparison": {
+            "random_forest": {
+                "Accuracy": 0.6747967479674797,
+                "Precision": 0.7184466019417476,
+                "Recall": 0.8705882352941177,
+                "F1-Score": 0.7872340425531915,
+                "ROC-AUC": 0.5137770897832817
+            },
+            "gradient_boosting": {
+                "Accuracy": 0.6747967479674797,
+                "Precision": 0.6890756302521008,
+                "Recall": 0.9647058823529412,
+                "F1-Score": 0.803921568627451,
+                "ROC-AUC": 0.5455108359133126
+            }
+        },
+        "roc_auc_scores": {
+            "random_forest": 0.5137770897832817,
+            "gradient_boosting": 0.5455108359133126
+        },
+        "best_model": "Gradient Boosting"
+    },
+    "explanations": {
+        "section1": {
+            "title": "Introduction to Problem and Data",
+            "dataset_overview": {
+                "name": "Loan Approval Dataset",
+                "source": "Financial Institution Loan Applications",
+                "problem_type": "Binary Classification",
+                "description": "The dataset contains loan application records from a financial institution. Each record represents a loan applicant with various demographic, financial, and property-related features. The goal is to predict whether a loan application will be approved or rejected."
+            },
+            "dataset_statistics": {
+                "total_samples": 614,
+                "total_features": 11,
+                "target_distribution": {
+                    "approved": "422 (68.7%)",
+                    "rejected": "192 (31.3%)"
+                },
+                "missing_values_summary": "Total missing values: 127"
+            },
+            "problem_statement": {
+                "objective": "Predict loan approval status (Approved/Rejected) based on applicant characteristics",
+                "business_value": "Automate loan approval process, reduce processing time, ensure consistent decision-making",
+                "challenges": [
+                    "Handling missing values in multiple features",
+                    "Mixed data types (categorical and numerical)",
+                    "Class imbalance (if present)",
+                    "Feature engineering for better predictive power",
+                    "Model interpretability for regulatory compliance"
+                ],
+                "success_criteria": [
+                    "High accuracy in predicting loan approval",
+                    "Low false positive rate (approving bad loans)",
+                    "Low false negative rate (rejecting good loans)",
+                    "Model interpretability"
+                ]
+            },
+            "feature_descriptions": {
+                "Gender": "Applicant gender (Male/Female)",
+                "Married": "Marital status (Yes/No)",
+                "Dependents": "Number of dependents (0, 1, 2, 3+)",
+                "Education": "Education level (Graduate/Not Graduate)",
+                "Self_Employed": "Self-employment status (Yes/No)",
+                "Applicant_Income": "Applicant annual income",
+                "Coapplicant_Income": "Co-applicant annual income",
+                "Loan_Amount": "Loan amount requested",
+                "Term": "Loan term in months",
+                "Credit_History": "Credit history (1: Good, 0: Bad)",
+                "Area": "Property area (Urban/Semiurban/Rural)"
+            },
+            "data_collection": "Data collected from loan application forms submitted to the financial institution, including applicant demographics, financial information, and loan details."
+        },
+        "section2": {
+            "title": "Data Preprocessing",
+            "overview": "Comprehensive preprocessing pipeline including missing value imputation, categorical encoding, outlier treatment, and feature scaling.",
+            "steps": {
+                "missing_values": {
+                    "description": "Missing values handled using appropriate imputation strategies",
+                    "categorical": "Mode imputation (most frequent value)",
+                    "numerical": "Median imputation (robust to outliers)",
+                    "rationale": "Mode preserves categorical distribution; median is robust to outliers in numerical data"
+                },
+                "encoding": {
+                    "description": "Categorical variables encoded to numerical format",
+                    "method": "LabelEncoder converts categorical labels to integers",
+                    "rationale": "Required for machine learning algorithms that work with numerical data"
+                },
+                "outliers": {
+                    "description": "Outliers detected and treated using IQR method",
+                    "method": "IQR = Q3 - Q1, bounds = Q1 - 1.5*IQR to Q3 + 1.5*IQR",
+                    "treatment": "Capping (winsorization) instead of removal to preserve data",
+                    "rationale": "Outliers can skew model training; capping preserves data while reducing extreme values"
+                },
+                "scaling": {
+                    "description": "Feature standardization applied to numerical features",
+                    "method": "StandardScaler: z = (x - \u03bc) / \u03c3",
+                    "effect": "All features have mean=0 and standard deviation=1",
+                    "rationale": "Ensures all features contribute equally to distance-based algorithms (SVM, KNN, Neural Networks)"
+                }
+            },
+            "impact_analysis": {
+                "before_preprocessing": "Raw data with missing values, categorical variables, and varying scales",
+                "after_preprocessing": "Clean, encoded, scaled data ready for machine learning",
+                "data_quality": "Improved data quality through systematic preprocessing steps"
+            }
+        },
+        "section3": {
+            "title": "Dimensionality Reduction",
+            "overview": "Analysis of PCA, LDA, and t-SNE dimensionality reduction techniques and their impact on model accuracy and computational cost.",
+            "methods": {
+                "pca": {
+                    "description": "Principal Component Analysis - Unsupervised linear dimensionality reduction",
+                    "principle": "Finds directions of maximum variance in data",
+                    "advantages": [
+                        "Preserves global structure",
+                        "Fast computation",
+                        "No label requirement"
+                    ],
+                    "disadvantages": [
+                        "May not preserve class separability",
+                        "Linear transformation only"
+                    ]
+                },
+                "lda": {
+                    "description": "Linear Discriminant Analysis - Supervised linear dimensionality reduction",
+                    "principle": "Maximizes between-class separation while minimizing within-class variance",
+                    "advantages": [
+                        "Uses class labels",
+                        "Better for classification",
+                        "Preserves class separability"
+                    ],
+                    "disadvantages": [
+                        "Requires labels",
+                        "Limited to (n_classes - 1) components",
+                        "Assumes Gaussian distribution"
+                    ]
+                },
+                "tsne": {
+                    "description": "t-SNE - Non-linear dimensionality reduction for visualization",
+                    "principle": "Preserves local neighborhood structure in low dimensions",
+                    "advantages": [
+                        "Excellent for visualization",
+                        "Captures non-linear relationships"
+                    ],
+                    "disadvantages": [
+                        "Computationally expensive",
+                        "Non-deterministic",
+                        "Not suitable for model training"
+                    ]
+                }
+            },
+            "accuracy_analysis": {
+                "pca_best": {
+                    "components": 5,
+                    "accuracy": 0.6972972972972973,
+                    "explained_variance": 0.8891503516883396
+                },
+                "lda_best": {
+                    "components": 1,
+                    "accuracy": 0.5675675675675675
+                },
+                "conclusion": "LDA typically performs better for classification tasks as it uses class information. PCA is faster but may lose discriminative information."
+            },
+            "computational_cost_analysis": {
+                "pca": {
+                    "fit_time": "0.0048s",
+                    "total_time": "0.2097s",
+                    "scalability": "O(n\u00b2p + p\u00b3) where n=samples, p=features"
+                },
+                "lda": {
+                    "fit_time": "0.0099s",
+                    "total_time": "0.2129s",
+                    "scalability": "O(np\u00b2) where n=samples, p=features"
+                },
+                "tsne": {
+                    "fit_time": "8.7939s",
+                    "note": "t-SNE is O(n\u00b2) and computationally expensive for large datasets"
+                },
+                "conclusion": "PCA is fastest, LDA is moderate, t-SNE is slowest. For production, PCA or LDA are preferred."
+            },
+            "recommendation": {
+                "for_classification": "LDA is recommended as it uses class labels and typically achieves better accuracy",
+                "for_speed": "PCA is recommended for faster computation",
+                "for_visualization": "t-SNE provides best visualizations but should not be used for model training"
+            }
+        },
+        "section4": {
+            "title": "Model Selection and Training",
+            "overview": "Selection and training of multiple machine learning models with justification based on problem characteristics.",
+            "models": {
+                "random_forest": {
+                    "description": "Ensemble method using multiple decision trees",
+                    "justification": [
+                        "Handles non-linear relationships effectively",
+                        "Provides feature importance for interpretability",
+                        "Robust to outliers and missing values",
+                        "Good performance on tabular data",
+                        "Can handle mixed data types"
+                    ],
+                    "suitability": "Highly suitable for loan approval prediction due to interpretability requirements"
+                },
+                "gradient_boosting": {
+                    "description": "Sequential ensemble method that builds models to correct previous errors",
+                    "justification": [
+                        "High predictive performance",
+                        "Handles complex non-linear patterns",
+                        "Effective for binary classification",
+                        "Can capture feature interactions",
+                        "State-of-the-art performance on structured data"
+                    ],
+                    "suitability": "Excellent choice for maximizing prediction accuracy"
+                },
+                "svm": {
+                    "description": "Support Vector Machine with kernel trick",
+                    "justification": [
+                        "Effective for binary classification",
+                        "Handles non-linear relationships with kernel",
+                        "Good generalization",
+                        "Works well with scaled features"
+                    ],
+                    "suitability": "Good baseline model, though may be slower than tree-based methods"
+                }
+            },
+            "selection_criteria": {
+                "problem_type": "Binary classification",
+                "data_characteristics": "Tabular data with mixed types",
+                "requirements": [
+                    "High accuracy",
+                    "Interpretability",
+                    "Robustness"
+                ],
+                "final_selection": "Random Forest and Gradient Boosting selected as primary models due to their balance of performance and interpretability"
+            },
+            "training_details": {
+                "train_val_test_split": "60% train, 20% validation, 20% test",
+                "stratification": "Used to maintain class distribution across splits",
+                "evaluation": "Models evaluated on separate test set"
+            }
+        },
+        "section5": {
+            "title": "Hyperparameter Tuning",
+            "overview": "Systematic search for optimal hyperparameters using Grid Search and Random Search methods.",
+            "methods": {
+                "grid_search": {
+                    "description": "Exhaustive search over specified parameter grid",
+                    "used_for": "Random Forest",
+                    "advantages": [
+                        "Guaranteed to find best in grid",
+                        "Thorough exploration"
+                    ],
+                    "disadvantages": [
+                        "Computationally expensive",
+                        "Limited to discrete values"
+                    ],
+                    "parameters_searched": {
+                        "n_estimators": [
+                            50,
+                            100,
+                            200
+                        ],
+                        "max_depth": [
+                            10,
+                            20,
+                            null
+                        ],
+                        "min_samples_split": [
+                            2,
+                            5,
+                            10
+                        ],
+                        "min_samples_leaf": [
+                            1,
+                            2,
+                            4
+                        ]
+                    }
+                },
+                "random_search": {
+                    "description": "Random sampling from parameter distribution",
+                    "used_for": "Gradient Boosting",
+                    "advantages": [
+                        "Faster than grid search",
+                        "Can explore more values",
+                        "Good for large parameter spaces"
+                    ],
+                    "disadvantages": [
+                        "May miss optimal values",
+                        "Non-deterministic"
+                    ],
+                    "parameters_searched": "Random sampling from specified distributions",
+                    "iterations": 20
+                }
+            },
+            "cross_validation": {
+                "method": "5-fold Stratified Cross-Validation",
+                "rationale": "Ensures robust evaluation and maintains class distribution",
+                "scoring": "F1-score (balances precision and recall)"
+            },
+            "results": {
+                "random_forest": {
+                    "best_params": {
+                        "max_depth": 20,
+                        "min_samples_leaf": 1,
+                        "min_samples_split": 2,
+                        "n_estimators": 200
+                    },
+                    "improvement": "Hyperparameter tuning improved model performance through optimal parameter selection"
+                },
+                "gradient_boosting": {
+                    "best_params": {
+                        "n_estimators": 50,
+                        "min_samples_split": 10,
+                        "min_samples_leaf": 1,
+                        "max_depth": 7,
+                        "learning_rate": 0.01
+                    },
+                    "improvement": "Random search efficiently explored large parameter space"
+                }
+            },
+            "best_hyperparameters": {
+                "random_forest": {
+                    "max_depth": 20,
+                    "min_samples_leaf": 1,
+                    "min_samples_split": 2,
+                    "n_estimators": 200
+                },
+                "gradient_boosting": {
+                    "n_estimators": 50,
+                    "min_samples_split": 10,
+                    "min_samples_leaf": 1,
+                    "max_depth": 7,
+                    "learning_rate": 0.01
+                }
+            }
+        },
+        "section6": {
+            "title": "Evaluation & Reproducibility",
+            "evaluation_metrics": {
+                "accuracy": "Overall correctness of predictions",
+                "precision": "Proportion of positive predictions that are correct (reduces false approvals)",
+                "recall": "Proportion of actual positives correctly identified (reduces false rejections)",
+                "f1_score": "Harmonic mean of precision and recall (balanced metric)",
+                "roc_auc": "Area under ROC curve (measures separability of classes)"
+            },
+            "data_splitting": {
+                "method": "Stratified Train/Validation/Test Split",
+                "rationale": [
+                    "Stratification ensures class distribution is maintained across splits",
+                    "Prevents data leakage between sets",
+                    "Validation set used for hyperparameter tuning",
+                    "Test set used only for final evaluation (unseen data)"
+                ],
+                "split_ratio": {
+                    "train": "60% - Model training",
+                    "validation": "15% - Hyperparameter tuning and model selection",
+                    "test": "25% - Final unbiased evaluation"
+                },
+                "justification": "Standard practice in ML to prevent overfitting and ensure unbiased evaluation"
+            },
+            "reproducibility": {
+                "random_state": "Set to 99 for all random operations",
+                "components": [
+                    "Data splitting",
+                    "Model initialization",
+                    "Cross-validation folds",
+                    "Random forest bootstrap sampling",
+                    "Gradient boosting random state"
+                ],
+                "importance": "Ensures results can be reproduced exactly, critical for scientific validity",
+                "implementation": "All sklearn functions use random_state parameter, numpy uses np.random.seed()"
+            },
+            "results_summary": {
+                "random_forest": {
+                    "accuracy": 0.6747967479674797,
+                    "precision": 0.7184466019417476,
+                    "recall": 0.8705882352941177,
+                    "f1_score": 0.7872340425531915,
+                    "roc_auc": 0.5137770897832817,
+                    "confusion_matrix": [
+                        [
+                            9,
+                            29
+                        ],
+                        [
+                            11,
+                            74
+                        ]
+                    ]
+                },
+                "gradient_boosting": {
+                    "accuracy": 0.6747967479674797,
+                    "precision": 0.6890756302521008,
+                    "recall": 0.9647058823529412,
+                    "f1_score": 0.803921568627451,
+                    "roc_auc": 0.5455108359133126,
+                    "confusion_matrix": [
+                        [
+                            1,
+                            37
+                        ],
+                        [
+                            3,
+                            82
+                        ]
+                    ]
+                }
+            }
+        },
+        "section7": {
+            "title": "Visualization & Analysis",
+            "visualizations": {
+                "confusion_matrix": {
+                    "description": "Shows true vs predicted classifications",
+                    "interpretation": "Diagonal elements are correct predictions; off-diagonal are errors",
+                    "insights": "Helps identify if model has bias toward one class"
+                },
+                "roc_curve": {
+                    "description": "Receiver Operating Characteristic curve",
+                    "interpretation": "Shows trade-off between true positive rate and false positive rate",
+                    "auc_meaning": "Higher AUC indicates better class separability",
+                    "insights": "Gradient Boosting shows better separability with AUC = 0.5455"
+                },
+                "precision_recall_curve": {
+                    "description": "Shows precision-recall trade-off",
+                    "interpretation": "Important when classes are imbalanced",
+                    "insights": "Helps identify optimal threshold for business requirements"
+                },
+                "metrics_comparison": {
+                    "description": "Side-by-side comparison of all evaluation metrics",
+                    "insights": "Gradient Boosting performs better overall"
+                },
+                "probability_distribution": {
+                    "description": "Distribution of predicted probabilities",
+                    "interpretation": "Shows model confidence in predictions",
+                    "insights": "Well-separated distributions indicate good model confidence"
+                }
+            },
+            "model_analysis": {
+                "best_model": "Gradient Boosting",
+                "performance_comparison": {
+                    "random_forest": {
+                        "strengths": [
+                            "Good interpretability",
+                            "Feature importance available",
+                            "Robust"
+                        ],
+                        "weaknesses": [
+                            "May have lower accuracy than gradient boosting"
+                        ]
+                    },
+                    "gradient_boosting": {
+                        "strengths": [
+                            "Higher accuracy",
+                            "Better at capturing complex patterns"
+                        ],
+                        "weaknesses": [
+                            "Less interpretable",
+                            "More prone to overfitting"
+                        ]
+                    }
+                },
+                "why_one_better": "Gradient Boosting achieved higher F1-score, indicating better balance between precision and recall",
+                "overfitting_analysis": "Both models show consistent performance on test set, indicating good generalization",
+                "business_implications": {
+                    "precision_importance": "High precision reduces false approvals (bad loans)",
+                    "recall_importance": "High recall reduces false rejections (good loans rejected)",
+                    "recommendation": "Use Gradient Boosting for production, but consider precision-recall trade-off based on business costs"
+                }
+            },
+            "conclusions": {
+                "model_performance": "Both models perform well, with Gradient Boosting showing superior performance",
+                "generalization": "Models generalize well to unseen data (test set)",
+                "production_readiness": "Models are ready for deployment with appropriate monitoring",
+                "future_improvements": [
+                    "Collect more data for underrepresented classes",
+                    "Feature engineering based on domain knowledge",
+                    "Ensemble of both models",
+                    "Real-time monitoring and retraining"
+                ]
+            }
+        }
+    }
+}

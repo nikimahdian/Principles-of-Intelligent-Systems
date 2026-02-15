@@ -1,0 +1,14 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces مقایسه عملکرد الگوریتم‌های PSO و GA شامل نمودار همگرایی، مقایسه دقت و تعداد ویژگی‌های انتخاب شده}}{11}{figure.caption.6}%
+\contentsline {figure}{\numberline {2}{\ignorespaces نمایش بصری خوشه‌بندی‌های مختلف در فضای دو بعدی PCA}}{18}{figure.caption.11}%
+\contentsline {figure}{\numberline {3}{\ignorespaces نمودار Inertia و Silhouette Score برای K-Means با تعداد خوشه‌های مختلف از \lr {K=2} تا \lr {K=10}}}{19}{figure.caption.12}%
+\contentsline {figure}{\numberline {4}{\ignorespaces مقایسه Silhouette Score برای چهار روش پیوند مختلف در الگوریتم Agglomerative Clustering}}{20}{figure.caption.13}%
+\contentsline {figure}{\numberline {5}{\ignorespaces نقشه حرارتی Silhouette Score برای ترکیبات مختلف پارامترهای \lr {eps} و \lr {min\_samples} در الگوریتم DBSCAN}}{21}{figure.caption.14}%
+\contentsline {figure}{\numberline {6}{\ignorespaces مقایسه بهترین امتیاز Silhouette برای هر یک از سه الگوریتم خوشه‌بندی}}{22}{figure.caption.15}%
+\contentsline {figure}{\numberline {7}{\ignorespaces ماتریس سردرگمی برای مدل Random Forest}}{31}{figure.caption.17}%
+\contentsline {figure}{\numberline {8}{\ignorespaces ماتریس سردرگمی برای مدل Gradient Boosting}}{32}{figure.caption.18}%
+\contentsline {figure}{\numberline {9}{\ignorespaces منحنی ROC برای مقایسه عملکرد مدل‌ها}}{32}{figure.caption.19}%
+\contentsline {figure}{\numberline {10}{\ignorespaces منحنی Precision-Recall برای مقایسه عملکرد مدل‌ها}}{33}{figure.caption.20}%
+\contentsline {figure}{\numberline {11}{\ignorespaces نمودار مقایسه معیارهای مختلف برای دو مدل}}{34}{figure.caption.21}%
+\contentsline {figure}{\numberline {12}{\ignorespaces نمودار اهمیت ویژگی‌ها از مدل Random Forest}}{35}{figure.caption.22}%
+\contentsline {figure}{\numberline {13}{\ignorespaces توزیع احتمالات پیش‌بینی برای مدل Random Forest}}{36}{figure.caption.23}%
+\contentsline {figure}{\numberline {14}{\ignorespaces توزیع احتمالات پیش‌بینی برای مدل Gradient Boosting}}{37}{figure.caption.24}%

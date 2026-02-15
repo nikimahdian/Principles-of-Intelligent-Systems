@@ -1,0 +1,398 @@
+{
+    "part_a": {
+        "q_equation": "Q_{t+1}(s_t, a_t) = (1 - \\alpha) Q_t(s_t, a_t) + \\alpha(r_t + \\gamma \\max_{a'} Q_t(s_{t+1}, a'))",
+        "parameters": {
+            "alpha": {
+                "symbol": "$\\alpha$",
+                "name": "Learning Rate",
+                "description": "Controls how much new information overrides old information. Range: [0, 1]",
+                "role": "Determines the step size of Q-value updates. Higher \u03b1 means faster learning but potentially less stable. Lower \u03b1 means slower but more stable convergence.",
+                "typical_values": "Common values: 0.1 to 0.5. Often decayed over time (e.g., \u03b1_t = \u03b1_0 / (1 + t))"
+            },
+            "gamma": {
+                "symbol": "$\\gamma$",
+                "name": "Discount Factor",
+                "description": "Determines the importance of future rewards. Range: [0, 1]",
+                "role": "Higher \u03b3 (close to 1) makes the agent value long-term rewards more. Lower \u03b3 (close to 0) makes the agent focus on immediate rewards. Essential for handling infinite-horizon problems.",
+                "typical_values": "Common values: 0.9 to 0.99. \u03b3=0 means only immediate reward matters, \u03b3=1 means future rewards are equally important."
+            },
+            "epsilon": {
+                "symbol": "$\\epsilon$",
+                "name": "Epsilon (\u03b5-greedy policy)",
+                "description": "Probability of selecting a random action instead of the greedy action. Range: [0, 1]",
+                "role": "Balances exploration vs exploitation. \u03b5=1 means pure exploration (random), \u03b5=0 means pure exploitation (greedy). Often decayed over time to shift from exploration to exploitation.",
+                "typical_values": "Common values: Start with 0.9-1.0, decay to 0.01-0.1. Decay schedule: \u03b5_t = max(\u03b5_min, \u03b5_max * decay^t)"
+            }
+        },
+        "off_policy_explanation": {
+            "concept": "Q-learning is an off-policy algorithm",
+            "definition": "Off-policy means the algorithm learns the value of the optimal policy while following a different (behavior) policy.",
+            "explanation": {
+                "behavior_policy": "The policy used to select actions (e.g., \u03b5-greedy policy)",
+                "target_policy": "The policy being learned (greedy policy: always select action with highest Q-value)",
+                "key_insight": "Q-learning updates Q-values using the maximum Q-value of the next state (greedy action), regardless of which action was actually taken. This allows learning the optimal policy while exploring."
+            },
+            "contrast_with_on_policy": {
+                "on_policy_example": "SARSA is on-policy - it learns the value of the policy it follows",
+                "difference": "SARSA uses Q(s_{t+1}, a_{t+1}) where a_{t+1} is the action actually taken. Q-learning uses max_a Q(s_{t+1}, a) regardless of action taken."
+            },
+            "advantages": [
+                "Can learn optimal policy while exploring",
+                "More sample-efficient in many cases",
+                "Can use data from any policy (e.g., expert demonstrations)"
+            ]
+        }
+    },
+    "part_b": {
+        "given_values": {
+            "initial_q_value": "Q(s_0, a_1) = 0.0",
+            "transition": "(s_t = s_0, a_t = a_1, r_t = +2.0, s_{t+1} = s_1)",
+            "max_next_q": "max_{a'} Q(s_1, a') = 1.5",
+            "alpha": "\u03b1 = 0.2",
+            "gamma": "\u03b3 = 0.9"
+        },
+        "calculation_steps": {
+            "step1": {
+                "description": "Current Q-value",
+                "value": "Q_t(s_0, a_1) = 0.0",
+                "explanation": "Initial Q-value from the Q-table (all zeros initially)"
+            },
+            "step2": {
+                "description": "Immediate reward",
+                "value": "r_t = 2.0",
+                "explanation": "Reward received for taking action a_1 in state s_0"
+            },
+            "step3": {
+                "description": "Discounted future value",
+                "value": "\u03b3 \u00d7 max_{a'} Q(s_1, a') = 0.9 \u00d7 1.5 = 1.35",
+                "explanation": "Discounted value of the best action in the next state"
+            },
+            "step4": {
+                "description": "TD Target (Temporal Difference target)",
+                "value": "r_t + \u03b3 max_{a'} Q(s_1, a') = 2.0 + 1.35 = 3.35",
+                "explanation": "The target value we want to move towards"
+            },
+            "step5": {
+                "description": "Weighted current Q-value",
+                "value": "(1 - \u03b1) \u00d7 Q_t(s_0, a_1) = (1 - 0.2) \u00d7 0.0 = 0.0",
+                "explanation": "Retained portion of current estimate"
+            },
+            "step6": {
+                "description": "Weighted new information",
+                "value": "\u03b1 \u00d7 TD_target = 0.2 \u00d7 3.35 = 0.67",
+                "explanation": "New information weighted by learning rate"
+            },
+            "step7": {
+                "description": "New Q-value",
+                "value": "Q_{t+1}(s_0, a_1) = 0.0 + 0.67 = 0.67",
+                "explanation": "Final updated Q-value"
+            }
+        },
+        "final_q_value": 0.67
+    },
+    "part_c": {
+        "convergence_issues": {
+            "issue1": {
+                "factor": "Inappropriate Learning Rate (\u03b1)",
+                "description": "Learning rate that is too high or too low can cause convergence problems",
+                "problems": {
+                    "too_high": {
+                        "symptom": "Q-values oscillate or diverge, unstable learning",
+                        "cause": "Large updates cause overshooting, Q-values bounce around optimal values",
+                        "example": "\u03b1 = 1.0 causes complete replacement of old values, no learning stability"
+                    },
+                    "too_low": {
+                        "symptom": "Extremely slow convergence, requires many episodes",
+                        "cause": "Tiny updates mean Q-values change very slowly",
+                        "example": "\u03b1 = 0.001 requires millions of steps to converge"
+                    }
+                },
+                "solutions": [
+                    {
+                        "solution": "Adaptive Learning Rate Schedule",
+                        "description": "Start with higher \u03b1 (e.g., 0.5-1.0) and decay over time (e.g., \u03b1_t = \u03b1_0 / (1 + decay_rate \u00d7 t))",
+                        "rationale": "Allows fast initial learning, then stabilizes as Q-values approach optimal"
+                    },
+                    {
+                        "solution": "Learning Rate Annealing",
+                        "description": "Use \u03b1_t = \u03b1_min + (\u03b1_max - \u03b1_min) \u00d7 exp(-decay \u00d7 t)",
+                        "rationale": "Smooth transition from exploration to exploitation"
+                    },
+                    {
+                        "solution": "State-Action Visit Count Based Learning Rate",
+                        "description": "Use \u03b1(s,a) = 1 / (1 + N(s,a)) where N(s,a) is visit count",
+                        "rationale": "Decreases learning rate for frequently visited state-action pairs, stabilizing their Q-values"
+                    }
+                ]
+            },
+            "issue2": {
+                "factor": "Insufficient Exploration or Poor Exploration Strategy",
+                "description": "Inadequate exploration leads to suboptimal policies and slow convergence",
+                "problems": {
+                    "insufficient_exploration": {
+                        "symptom": "Agent gets stuck in local optima, converges to suboptimal policy",
+                        "cause": "Early convergence to first reasonable policy found, missing better alternatives",
+                        "example": "\u03b5-greedy with \u03b5=0.01 from start leads to exploitation of poor initial policy"
+                    },
+                    "poor_exploration": {
+                        "symptom": "Wasteful random exploration, slow learning",
+                        "cause": "Pure random exploration doesn't guide learning efficiently",
+                        "example": "\u03b5=1.0 (pure random) never exploits learned knowledge"
+                    }
+                },
+                "solutions": [
+                    {
+                        "solution": "Epsilon Decay Schedule",
+                        "description": "Start with high \u03b5 (0.9-1.0) and decay to low \u03b5 (0.01-0.1): \u03b5_t = max(\u03b5_min, \u03b5_max \u00d7 decay^t)",
+                        "rationale": "Balances exploration (early) and exploitation (later) phases"
+                    },
+                    {
+                        "solution": "Upper Confidence Bound (UCB) or Optimistic Initialization",
+                        "description": "Initialize Q-values optimistically high, encouraging exploration of unexplored states",
+                        "rationale": "Agent naturally explores less-visited states due to optimistic estimates"
+                    },
+                    {
+                        "solution": "Boltzmann (Softmax) Exploration",
+                        "description": "Use probability distribution: P(a|s) = exp(Q(s,a)/\u03c4) / \u03a3 exp(Q(s,a\\')/\u03c4)",
+                        "rationale": "More systematic exploration based on Q-value estimates, temperature \u03c4 controls exploration"
+                    }
+                ]
+            }
+        },
+        "all_issues_summary": {
+            "issue1": {
+                "factor": "Inappropriate Learning Rate (\u03b1)",
+                "description": "Learning rate that is too high or too low can cause convergence problems"
+            },
+            "issue2": {
+                "factor": "Insufficient Exploration or Poor Exploration Strategy",
+                "description": "Inadequate exploration leads to suboptimal policies and slow convergence"
+            },
+            "issue3": {
+                "factor": "Reward Scaling and Design Issues",
+                "description": "Poorly scaled or designed rewards cause learning instability"
+            },
+            "issue4": {
+                "factor": "State Space Discretization and Representation",
+                "description": "Poor state representation leads to slow or failed convergence"
+            }
+        }
+    },
+    "explanations": {
+        "part_a": {
+            "section": "Q-Learning Equation and Parameters",
+            "equation": {
+                "latex": "Q_{t+1}(s_t, a_t) = (1 - \\alpha) Q_t(s_t, a_t) + \\alpha(r_t + \\gamma \\max_{a'} Q_t(s_{t+1}, a'))",
+                "description": "The Q-learning update equation combines the current Q-value estimate with the new information (reward + discounted future value)."
+            },
+            "parameters_detailed": {
+                "alpha": {
+                    "symbol": "$\\alpha$",
+                    "name": "Learning Rate",
+                    "description": "Controls how much new information overrides old information. Range: [0, 1]",
+                    "role": "Determines the step size of Q-value updates. Higher \u03b1 means faster learning but potentially less stable. Lower \u03b1 means slower but more stable convergence.",
+                    "typical_values": "Common values: 0.1 to 0.5. Often decayed over time (e.g., \u03b1_t = \u03b1_0 / (1 + t))"
+                },
+                "gamma": {
+                    "symbol": "$\\gamma$",
+                    "name": "Discount Factor",
+                    "description": "Determines the importance of future rewards. Range: [0, 1]",
+                    "role": "Higher \u03b3 (close to 1) makes the agent value long-term rewards more. Lower \u03b3 (close to 0) makes the agent focus on immediate rewards. Essential for handling infinite-horizon problems.",
+                    "typical_values": "Common values: 0.9 to 0.99. \u03b3=0 means only immediate reward matters, \u03b3=1 means future rewards are equally important."
+                },
+                "epsilon": {
+                    "symbol": "$\\epsilon$",
+                    "name": "Epsilon (\u03b5-greedy policy)",
+                    "description": "Probability of selecting a random action instead of the greedy action. Range: [0, 1]",
+                    "role": "Balances exploration vs exploitation. \u03b5=1 means pure exploration (random), \u03b5=0 means pure exploitation (greedy). Often decayed over time to shift from exploration to exploitation.",
+                    "typical_values": "Common values: Start with 0.9-1.0, decay to 0.01-0.1. Decay schedule: \u03b5_t = max(\u03b5_min, \u03b5_max * decay^t)"
+                }
+            },
+            "off_policy": {
+                "concept": "Q-learning is an off-policy algorithm",
+                "definition": "Off-policy means the algorithm learns the value of the optimal policy while following a different (behavior) policy.",
+                "explanation": {
+                    "behavior_policy": "The policy used to select actions (e.g., \u03b5-greedy policy)",
+                    "target_policy": "The policy being learned (greedy policy: always select action with highest Q-value)",
+                    "key_insight": "Q-learning updates Q-values using the maximum Q-value of the next state (greedy action), regardless of which action was actually taken. This allows learning the optimal policy while exploring."
+                },
+                "contrast_with_on_policy": {
+                    "on_policy_example": "SARSA is on-policy - it learns the value of the policy it follows",
+                    "difference": "SARSA uses Q(s_{t+1}, a_{t+1}) where a_{t+1} is the action actually taken. Q-learning uses max_a Q(s_{t+1}, a) regardless of action taken."
+                },
+                "advantages": [
+                    "Can learn optimal policy while exploring",
+                    "More sample-efficient in many cases",
+                    "Can use data from any policy (e.g., expert demonstrations)"
+                ]
+            },
+            "mathematical_interpretation": {
+                "term1": {
+                    "formula": "(1 - \\alpha) Q_t(s_t, a_t)",
+                    "description": "Retains a fraction of the current Q-value estimate"
+                },
+                "term2": {
+                    "formula": "\\alpha(r_t + \\gamma \\max_{a\\'} Q_t(s_{t+1}, a\\'))",
+                    "description": "Updates with new information: immediate reward plus discounted optimal future value"
+                },
+                "balance": "The learning rate \u03b1 balances between old and new information"
+            }
+        },
+        "part_b": {
+            "section": "Q-Value Calculation Example",
+            "problem_statement": "Calculate the new Q-value after observing a transition, given initial Q-table (all zeros), transition details, and Q-learning parameters.",
+            "step_by_step": {
+                "given": {
+                    "initial_q_value": "Q(s_0, a_1) = 0.0",
+                    "transition": "(s_t = s_0, a_t = a_1, r_t = +2.0, s_{t+1} = s_1)",
+                    "max_next_q": "max_{a'} Q(s_1, a') = 1.5",
+                    "alpha": "\u03b1 = 0.2",
+                    "gamma": "\u03b3 = 0.9"
+                },
+                "calculation": {
+                    "step1": {
+                        "description": "Current Q-value",
+                        "value": "Q_t(s_0, a_1) = 0.0",
+                        "explanation": "Initial Q-value from the Q-table (all zeros initially)"
+                    },
+                    "step2": {
+                        "description": "Immediate reward",
+                        "value": "r_t = 2.0",
+                        "explanation": "Reward received for taking action a_1 in state s_0"
+                    },
+                    "step3": {
+                        "description": "Discounted future value",
+                        "value": "\u03b3 \u00d7 max_{a'} Q(s_1, a') = 0.9 \u00d7 1.5 = 1.35",
+                        "explanation": "Discounted value of the best action in the next state"
+                    },
+                    "step4": {
+                        "description": "TD Target (Temporal Difference target)",
+                        "value": "r_t + \u03b3 max_{a'} Q(s_1, a') = 2.0 + 1.35 = 3.35",
+                        "explanation": "The target value we want to move towards"
+                    },
+                    "step5": {
+                        "description": "Weighted current Q-value",
+                        "value": "(1 - \u03b1) \u00d7 Q_t(s_0, a_1) = (1 - 0.2) \u00d7 0.0 = 0.0",
+                        "explanation": "Retained portion of current estimate"
+                    },
+                    "step6": {
+                        "description": "Weighted new information",
+                        "value": "\u03b1 \u00d7 TD_target = 0.2 \u00d7 3.35 = 0.67",
+                        "explanation": "New information weighted by learning rate"
+                    },
+                    "step7": {
+                        "description": "New Q-value",
+                        "value": "Q_{t+1}(s_0, a_1) = 0.0 + 0.67 = 0.67",
+                        "explanation": "Final updated Q-value"
+                    }
+                },
+                "final_answer": {
+                    "value": 0.67,
+                    "formatted": "Q_{t+1}(s_0, a_1) = 0.6700"
+                }
+            },
+            "interpretation": {
+                "result": "The Q-value increased from 0.0 to 0.6700, indicating that action a_1 in state s_0 leads to positive expected future rewards.",
+                "learning_rate_effect": "With \u03b1=0.2, the update moved 20.0% towards the TD target, showing moderate learning speed.",
+                "discount_factor_effect": "With \u03b3=0.9, future rewards are valued at 90.0% of their immediate value, showing strong consideration of long-term consequences."
+            },
+            "formula_application": {
+                "equation": "Q_{t+1}(s_t, a_t) = (1 - \\alpha) Q_t(s_t, a_t) + \\alpha(r_t + \\gamma \\max_{a'} Q_t(s_{t+1}, a'))",
+                "substitution": "Q_{t+1}(s_0, a_1) = (1 - 0.2) \u00d7 0.0 + 0.2 \u00d7 (2.0 + 0.9 \u00d7 1.5)",
+                "simplification": "Q_{t+1}(s_0, a_1) = 0.0 + 0.67 = 0.6700"
+            }
+        },
+        "part_c": {
+            "section": "Convergence Issues and Solutions",
+            "introduction": "Q-learning convergence can be affected by multiple factors. Two critical issues are discussed with practical solutions.",
+            "detailed_issues": {
+                "issue1": {
+                    "factor": "Inappropriate Learning Rate (\u03b1)",
+                    "description": "Learning rate that is too high or too low can cause convergence problems",
+                    "problems": {
+                        "too_high": {
+                            "symptom": "Q-values oscillate or diverge, unstable learning",
+                            "cause": "Large updates cause overshooting, Q-values bounce around optimal values",
+                            "example": "\u03b1 = 1.0 causes complete replacement of old values, no learning stability"
+                        },
+                        "too_low": {
+                            "symptom": "Extremely slow convergence, requires many episodes",
+                            "cause": "Tiny updates mean Q-values change very slowly",
+                            "example": "\u03b1 = 0.001 requires millions of steps to converge"
+                        }
+                    },
+                    "solutions": [
+                        {
+                            "solution": "Adaptive Learning Rate Schedule",
+                            "description": "Start with higher \u03b1 (e.g., 0.5-1.0) and decay over time (e.g., \u03b1_t = \u03b1_0 / (1 + decay_rate \u00d7 t))",
+                            "rationale": "Allows fast initial learning, then stabilizes as Q-values approach optimal"
+                        },
+                        {
+                            "solution": "Learning Rate Annealing",
+                            "description": "Use \u03b1_t = \u03b1_min + (\u03b1_max - \u03b1_min) \u00d7 exp(-decay \u00d7 t)",
+                            "rationale": "Smooth transition from exploration to exploitation"
+                        },
+                        {
+                            "solution": "State-Action Visit Count Based Learning Rate",
+                            "description": "Use \u03b1(s,a) = 1 / (1 + N(s,a)) where N(s,a) is visit count",
+                            "rationale": "Decreases learning rate for frequently visited state-action pairs, stabilizing their Q-values"
+                        }
+                    ]
+                },
+                "issue2": {
+                    "factor": "Insufficient Exploration or Poor Exploration Strategy",
+                    "description": "Inadequate exploration leads to suboptimal policies and slow convergence",
+                    "problems": {
+                        "insufficient_exploration": {
+                            "symptom": "Agent gets stuck in local optima, converges to suboptimal policy",
+                            "cause": "Early convergence to first reasonable policy found, missing better alternatives",
+                            "example": "\u03b5-greedy with \u03b5=0.01 from start leads to exploitation of poor initial policy"
+                        },
+                        "poor_exploration": {
+                            "symptom": "Wasteful random exploration, slow learning",
+                            "cause": "Pure random exploration doesn't guide learning efficiently",
+                            "example": "\u03b5=1.0 (pure random) never exploits learned knowledge"
+                        }
+                    },
+                    "solutions": [
+                        {
+                            "solution": "Epsilon Decay Schedule",
+                            "description": "Start with high \u03b5 (0.9-1.0) and decay to low \u03b5 (0.01-0.1): \u03b5_t = max(\u03b5_min, \u03b5_max \u00d7 decay^t)",
+                            "rationale": "Balances exploration (early) and exploitation (later) phases"
+                        },
+                        {
+                            "solution": "Upper Confidence Bound (UCB) or Optimistic Initialization",
+                            "description": "Initialize Q-values optimistically high, encouraging exploration of unexplored states",
+                            "rationale": "Agent naturally explores less-visited states due to optimistic estimates"
+                        },
+                        {
+                            "solution": "Boltzmann (Softmax) Exploration",
+                            "description": "Use probability distribution: P(a|s) = exp(Q(s,a)/\u03c4) / \u03a3 exp(Q(s,a\\')/\u03c4)",
+                            "rationale": "More systematic exploration based on Q-value estimates, temperature \u03c4 controls exploration"
+                        }
+                    ]
+                }
+            },
+            "summary_table": {
+                "factors": [
+                    "Inappropriate Learning Rate",
+                    "Insufficient/Poor Exploration",
+                    "Reward Scaling Issues",
+                    "State Space Representation"
+                ],
+                "key_solutions": [
+                    "Adaptive learning rate schedules, visit-count based \u03b1",
+                    "Epsilon decay, UCB, Boltzmann exploration",
+                    "Reward normalization/clipping, reward shaping",
+                    "Appropriate discretization, feature selection, function approximation"
+                ]
+            },
+            "general_principles": {
+                "principle1": "Balance exploration and exploitation throughout learning",
+                "principle2": "Ensure numerical stability through proper scaling",
+                "principle3": "Design state representation to capture essential information efficiently",
+                "principle4": "Use adaptive parameters that change as learning progresses"
+            }
+        }
+    }
+}

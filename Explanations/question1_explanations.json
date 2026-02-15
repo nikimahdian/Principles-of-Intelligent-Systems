@@ -1,0 +1,69 @@
+{
+    "data_preprocessing": {
+        "description": "Data loaded and preprocessed. Categorical variables encoded using LabelEncoder. Split into 70% train and 30% test using stratified split.",
+        "train_samples": 349,
+        "test_samples": 150,
+        "total_features": 11,
+        "feature_names": [
+            "Gender",
+            "Married",
+            "Dependents",
+            "Education",
+            "Self_Employed",
+            "Applicant_Income",
+            "Coapplicant_Income",
+            "Loan_Amount",
+            "Term",
+            "Credit_History",
+            "Area"
+        ],
+        "split_method": "train_test_split with test_size=0.3, stratified=True"
+    },
+    "pso": {
+        "algorithm": "Particle Swarm Optimization",
+        "description": "PSO uses swarm intelligence where particles move through the search space to find optimal feature combinations.",
+        "parameters_explained": {
+            "w": "Inertia weight controlling particle momentum",
+            "c1": "Cognitive parameter (particle's own best)",
+            "c2": "Social parameter (swarm's best)",
+            "alpha": "Weight balancing accuracy vs feature count"
+        },
+        "selected_features_count": 1,
+        "final_accuracy": 0.8066666666666666
+    },
+    "ga": {
+        "algorithm": "Genetic Algorithm",
+        "description": "GA uses evolutionary principles: selection, crossover, and mutation to evolve feature subsets.",
+        "operators_explained": {
+            "crossover": "Two-point crossover exchanges genetic material between parents",
+            "mutation": "Bit flip mutation introduces diversity by flipping feature selection bits",
+            "selection": "Tournament selection favors fitter individuals"
+        },
+        "selected_features_count": 1,
+        "final_accuracy": 0.8066666666666666
+    },
+    "comparison": {
+        "performance_analysis": {
+            "pso_accuracy": "0.8067",
+            "ga_accuracy": "0.8067",
+            "better_accuracy": "GA",
+            "pso_features": 1,
+            "ga_features": 1,
+            "fewer_features": "GA"
+        },
+        "convergence_analysis": {
+            "pso_convergence": "PSO showed slower convergence",
+            "ga_convergence": "GA showed faster convergence",
+            "stability": "Both algorithms converged to stable solutions"
+        },
+        "feature_selection_differences": {
+            "reason": "PSO and GA may select different features due to:",
+            "points": [
+                "Different search strategies (swarm vs evolutionary)",
+                "Different exploration-exploitation balance",
+                "Stochastic nature leading to different local optima",
+                "Different convergence speeds affecting final solution"
+            ]
+        }
+    }
+}

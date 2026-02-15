@@ -1,0 +1,79 @@
+\contentsline {section}{\numberline {1}مقدمه}{7}{section.1}%
+\contentsline {subsection}{\numberline {1.1}ساختار پروژه}{7}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}لینک‌های پروژه}{7}{subsection.1.2}%
+\contentsline {section}{\numberline {2}سوال ۱: انتخاب ویژگی با استفاده از الگوریتم‌های بهینه‌سازی}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}مقدمه}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}پیش‌پردازش داده}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}الگوریتم بهینه‌سازی ازدحام ذرات (PSO)}{8}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}مکانیزم الگوریتم PSO}{8}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}پارامترهای الگوریتم PSO و تحلیل آن‌ها}{8}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}تحلیل همگرایی PSO}{9}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}نتایج PSO}{9}{subsubsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.4}الگوریتم ژنتیک (GA)}{9}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}مکانیزم الگوریتم GA}{9}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}پارامترهای الگوریتم GA و تحلیل آن‌ها}{10}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}تحلیل همگرایی GA}{10}{subsubsection.2.4.3}%
+\contentsline {subsubsection}{\numberline {2.4.4}نتایج GA}{10}{subsubsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.5}مقایسه نتایج}{11}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}تحلیل عملکرد و مقایسه جامع}{11}{subsubsection.2.5.1}%
+\contentsline {section}{\numberline {3}سوال ۲: خوشه‌بندی و کاهش ابعاد}{12}{section.3}%
+\contentsline {subsection}{\numberline {3.1}مقدمه}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}پیش‌پردازش داده}{13}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}تحلیل مؤلفه اصلی (PCA)}{13}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}خوشه‌بندی K-Means}{13}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}تحلیل جامع K از 2 تا 10}{13}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}انتخاب K بهینه}{14}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}خوشه‌بندی سلسله‌مراتبی تجمعی}{15}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}مقایسه روش‌های پیوند}{15}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}بهترین روش پیوند}{16}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}خوشه‌بندی DBSCAN}{16}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}جستجوی شبکه پارامترها}{16}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}بهترین پیکربندی DBSCAN}{17}{subsubsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.7}تصاویر خوشه‌بندی}{18}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}تحلیل معیارهای خوشه‌بندی}{18}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2}نمودار Inertia و Silhouette Score برای K-Means}{18}{subsubsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.3}مقایسه Silhouette Score برای روش‌های پیوند Agglomerative}{19}{subsubsection.3.7.3}%
+\contentsline {subsubsection}{\numberline {3.7.4}نقشه حرارتی Silhouette Score برای پارامترهای DBSCAN}{20}{subsubsection.3.7.4}%
+\contentsline {subsubsection}{\numberline {3.7.5}مقایسه بهترین امتیاز Silhouette برای سه الگوریتم}{21}{subsubsection.3.7.5}%
+\contentsline {section}{\numberline {4}سوال ۳: نظریه یادگیری Q}{22}{section.4}%
+\contentsline {subsection}{\numberline {4.1}مقدمه}{22}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}بخش الف: معادله و پارامترهای یادگیری Q}{22}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}معادله یادگیری Q}{22}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}پارامترهای الگوریتم}{23}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}یادگیری Off-Policy}{23}{subsubsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.3}بخش ب: محاسبه مقدار Q}{23}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}بخش ج: مسائل همگرایی و راه‌حل‌ها}{24}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}نرخ یادگیری نامناسب ($\alpha $)}{24}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}اکتشاف ناکافی یا استراتژی اکتشاف ضعیف}{24}{subsubsection.4.4.2}%
+\contentsline {section}{\numberline {5}پروژه نهایی: خط لوله جامع یادگیری ماشین}{24}{section.5}%
+\contentsline {subsection}{\numberline {5.1}مقدمه}{24}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}بخش ۱: معرفی مسئله و داده}{24}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}بخش ۲: پیش‌پردازش داده}{24}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}مدیریت مقادیر گم‌شده}{25}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}کدگذاری متغیرهای دسته‌ای}{25}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}تشخیص و درمان داده‌های پرت}{25}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}مقیاس‌گذاری ویژگی‌ها}{26}{subsubsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.4}بخش ۳: کاهش ابعاد}{26}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}PCA (تحلیل مؤلفه اصلی)}{26}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}LDA (تحلیل تشخیص خطی)}{26}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}t-SNE}{26}{subsubsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.5}بخش ۴: انتخاب و آموزش مدل}{27}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}\lr {Random Forest}}{27}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}\lr {Gradient Boosting}}{27}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}\lr {Support Vector Machine}}{28}{subsubsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.6}بخش ۵: تنظیم ابرپارامترها}{28}{subsection.5.6}%
+\contentsline {subsubsection}{\numberline {5.6.1}\lr {Random Forest}}{28}{subsubsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.2}\lr {Gradient Boosting}}{29}{subsubsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.7}بخش ۶: ارزیابی و قابلیت تکرار}{29}{subsection.5.7}%
+\contentsline {subsubsection}{\numberline {5.7.1}نتایج نهایی و تحلیل جامع}{29}{subsubsection.5.7.1}%
+\contentsline {subsubsection}{\numberline {5.7.2}تحلیل مشکلات و مسائل}{29}{subsubsection.5.7.2}%
+\contentsline {subsubsection}{\numberline {5.7.3}پیشنهادات بهبود}{30}{subsubsection.5.7.3}%
+\contentsline {subsection}{\numberline {5.8}بخش ۷: تجسم و تحلیل}{30}{subsection.5.8}%
+\contentsline {subsubsection}{\numberline {5.8.1}ماتریس سردرگمی}{30}{subsubsection.5.8.1}%
+\contentsline {subsubsection}{\numberline {5.8.2}منحنی ROC}{32}{subsubsection.5.8.2}%
+\contentsline {subsubsection}{\numberline {5.8.3}منحنی Precision-Recall}{33}{subsubsection.5.8.3}%
+\contentsline {subsubsection}{\numberline {5.8.4}مقایسه معیارها}{34}{subsubsection.5.8.4}%
+\contentsline {subsubsection}{\numberline {5.8.5}اهمیت ویژگی‌ها}{35}{subsubsection.5.8.5}%
+\contentsline {subsubsection}{\numberline {5.8.6}توزیع احتمالات}{36}{subsubsection.5.8.6}%
+\contentsline {subsubsection}{\numberline {5.8.7}خلاصه مقایسه مدل‌ها}{36}{subsubsection.5.8.7}%
+\contentsline {section}{\numberline {6}نتیجه‌گیری}{37}{section.6}%

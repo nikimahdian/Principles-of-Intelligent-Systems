@@ -1,0 +1,252 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Persian support
+\usepackage{xepersian}
+\settextfont[Path={./font/}, Scale=1.3]{IRLotus}
+\setlatintextfont[Scale=1]{Times New Roman}
+
+% Theme - simpler for faster presentation
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+% Title information
+\title{گزارش پروژه نهایی}
+\subtitle{درس مبانی هوش مصنوعی - FIS4041}
+\author{نیکی مهدیان \and مبینا یوسفی مقدم}
+\date{\today}
+
+% Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Custom colors for emphasis
+\definecolor{important}{RGB}{200,0,0}
+\definecolor{highlight}{RGB}{0,100,200}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+\titlepage
+\end{frame}
+
+% ============================================
+% INTRODUCTION
+% ============================================
+\begin{frame}{معرفی پروژه}
+\begin{block}{چهار بخش اصلی}
+\begin{enumerate}
+\item \textbf{انتخاب ویژگی} با PSO و GA
+\item \textbf{خوشه‌بندی} مشتریان مرکز خرید
+\item \textbf{یادگیری Q} - بررسی نظری
+\item \textbf{خط لوله ML} برای پیش‌بینی وام
+\end{enumerate}
+\end{block}
+\end{frame}
+
+% ============================================
+% QUESTION 1
+% ============================================
+\section{سوال ۱}
+
+\begin{frame}{انتخاب ویژگی - نتایج کلیدی}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{PSO}
+\begin{itemize}
+\item همگرایی: تکرار ۷
+\item ویژگی: \textcolor{important}{\textbf{Credit\_History}}
+\item دقت: \textcolor{highlight}{\textbf{۸۰.۶۷\%}}
+\end{itemize}
+\end{block}
+
+\begin{block}{GA}
+\begin{itemize}
+\item همگرایی: نسل ۳
+\item ویژگی: \textcolor{important}{\textbf{Credit\_History}}
+\item دقت: \textcolor{highlight}{\textbf{۸۰.۶۷\%}}
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{نتیجه}
+\begin{itemize}
+\item هر دو الگوریتم به \textbf{همان جواب} رسیدند
+\item کاهش ابعاد: \textcolor{highlight}{\textbf{۹۰.۹\%}}
+\item (۱۱ ویژگی $\rightarrow$ ۱ ویژگی)
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{نکته مهم}
+Credit\_History به تنهایی می‌تواند ۸۰\% دقت داشته باشد!
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+% ============================================
+% QUESTION 2
+% ============================================
+\section{سوال ۲}
+
+\begin{frame}{خوشه‌بندی - مقایسه}
+\begin{table}[h]
+\centering
+\large
+\begin{tabular}{|c|c|}
+\hline
+\textbf{الگوریتم} & \textbf{Silhouette Score} \\
+\hline
+K-Means (K=6) & ۰.۴۲۷۴ \\
+\hline
+Agglomerative (Ward) & ۰.۴۲۰۱ \\
+\hline
+\textcolor{important}{\textbf{DBSCAN}} & \textcolor{important}{\textbf{۰.۵۲۹۶}} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{block}{DBSCAN - بهترین}
+\begin{itemize}
+\item پارامترها: eps=0.6, min\_samples=10
+\item شناسایی: \textbf{۴ خوشه} + \textbf{۳۳\% نویز}
+\item \textcolor{highlight}{\textbf{بهترین عملکرد}} در بین همه
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ============================================
+% QUESTION 3
+% ============================================
+\section{سوال ۳}
+
+\begin{frame}{یادگیری Q - خلاصه}
+\begin{block}{معادله}
+\begin{equation*}
+Q_{t+1} = (1-\alpha)Q_t + \alpha(r_t + \gamma \max Q_{t+1})
+\end{equation*}
+\end{block}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{پارامترها}
+\begin{itemize}
+\item $\alpha$: نرخ یادگیری
+\item $\gamma$: عامل تنزیل
+\item $\epsilon$: اکتشاف
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{ویژگی}
+\begin{itemize}
+\item \textbf{Off-policy}
+\item یادگیری سیاست بهینه
+\item در حین اکتشاف
+\end{itemize}
+\end{block}
+\end{columns}
+
+\begin{block}{مسائل همگرایی}
+\begin{itemize}
+\item نرخ یادگیری نامناسب $\rightarrow$ برنامه زمان‌بندی تطبیقی
+\item اکتشاف ناکافی $\rightarrow$ کاهش $\epsilon$
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ============================================
+% FINAL PROJECT
+% ============================================
+\section{پروژه نهایی}
+
+\begin{frame}{خط لوله ML - مراحل}
+\begin{enumerate}
+\item \textbf{پیش‌پردازش}: مدیریت مقادیر گم‌شده، کدگذاری، درمان پرت
+\item \textbf{کاهش ابعاد}: PCA (۵ مؤلفه، ۶۹.۷۳\% دقت)
+\item \textbf{انتخاب مدل}: Random Forest و Gradient Boosting
+\item \textbf{تنظیم ابرپارامترها}: Grid Search و Random Search
+\item \textbf{ارزیابی}: معیارهای مختلف
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{نتایج نهایی}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{معیار} & \textbf{Random Forest} & \textbf{Gradient Boosting} \\
+\hline
+Precision & \textcolor{highlight}{\textbf{۷۱.۸۴\%}} & ۶۸.۹۱\% \\
+\hline
+Recall & ۸۷.۰۶\% & \textcolor{highlight}{\textbf{۹۶.۴۷\%}} \\
+\hline
+F1-Score & ۷۸.۷۲\% & \textcolor{important}{\textbf{۸۰.۳۹\%}} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{block}{تحلیل}
+\begin{itemize}
+\item \textcolor{important}{\textbf{Gradient Boosting}}: بهترین F1 و Recall
+\begin{itemize}
+\item شناسایی \textbf{۹۶\%} وام‌های خوب
+\end{itemize}
+\item \textbf{Random Forest}: بهترین Precision
+\begin{itemize}
+\item کاهش False Positive
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{اهمیت ویژگی‌ها}
+\begin{block}{مهم‌ترین ویژگی‌ها (Random Forest)}
+\begin{enumerate}
+\item \textcolor{important}{\textbf{Credit\_History}} (مهم‌ترین)
+\item Applicant\_Income
+\item Loan\_Amount
+\item Coapplicant\_Income
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{تأیید یافته}
+Credit\_History در پروژه نهایی نیز به عنوان مهم‌ترین ویژگی تأیید شد!
+\end{alertblock}
+\end{frame}
+
+% ============================================
+% CONCLUSION
+% ============================================
+\section{نتیجه‌گیری}
+
+\begin{frame}{خلاصه دستاوردها}
+\begin{block}{نتایج کلیدی}
+\begin{itemize}
+\item \textbf{انتخاب ویژگی}: کاهش ۹۰.۹\% با حفظ ۸۰.۶۷\% دقت
+\item \textbf{خوشه‌بندی}: DBSCAN با ۰.۵۲۹۶ بهترین عملکرد
+\item \textbf{یادگیری Q}: تحلیل نظری و مسائل همگرایی
+\item \textbf{خط لوله ML}: F1-Score = ۸۰.۳۹\%
+\end{itemize}
+\end{block}
+
+\begin{block}{ارزش عملی}
+\begin{itemize}
+\item سیستم پیش‌بینی وام با دقت بالا
+\item تقسیم‌بندی مشتریان برای بازاریابی
+\item درک عمیق از الگوریتم‌های AI/ML
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\Huge \textbf{سپاسگزاریم}
+
+\vspace{1cm}
+
+\Large سوالات؟
+\end{center}
+\end{frame}
+
+\end{document}
+

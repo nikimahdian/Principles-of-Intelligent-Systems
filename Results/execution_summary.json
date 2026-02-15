@@ -1,0 +1,25 @@
+{
+    "execution_time": "2026-02-05T00:05:50.406446",
+    "questions": {},
+    "files_generated": {
+        "results": [
+            "execution_summary.json",
+            "final_project_results.json",
+            "question1_results.json",
+            "question2_results.json",
+            "question3_results.json"
+        ],
+        "explanations": [
+            "final_project_explanations.json",
+            "question1_explanations.json",
+            "question2_explanations.json",
+            "question3_explanations.json"
+        ],
+        "plots": [
+            "final_project_comprehensive_analysis.png",
+            "question1_comparison.png",
+            "question2_clustering_analysis.png",
+            "question2_clustering_visualization.png"
+        ]
+    }
+}
